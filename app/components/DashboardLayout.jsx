@@ -28,7 +28,7 @@ const DashboardLayout = ({ children }) => {
         <div className="flex flex-col min-h-screen bg-gray-100">
           <main className="flex-grow p-5">{children}</main>
           <footer className="text-center text-secondary text-[14px] border-t py-3 px-5 font-normal">
-            © 2026 Takeway Courier. All rights reserved. | Develop by Creative
+            © 2026 Bangla1 Express. All rights reserved. | Develop by Creative
             Software
           </footer>
         </div>

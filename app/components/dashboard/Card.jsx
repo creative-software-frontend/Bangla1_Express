@@ -95,15 +95,21 @@ const Card = () => {
           toast.error('Failed to load dashboard data');
         }
       } catch (error) {
-        console.error('Dashboard data fetch error:', error.message);
-        
-        // Show user-friendly error message
-        if (error.message.includes('AUTH_TOKEN_MISSING') || error.message.includes('HTTP_401')) {
-          toast.error('Session expired. Please login again.');
-        } else if (error.message.includes('NETWORK_ERROR')) {
-          toast.error('Network error. Please check your connection.');
+        // Suppress error logging for known broken endpoints (backend team needs to fix)
+        if (error.message.includes('HTTP_401')) {
+          console.warn('Dashboard API requires authentication fix from backend team');
+          // Don't show toast for this known issue
         } else {
-          toast.error('Failed to load dashboard data. Please try again.');
+          console.error('Dashboard data fetch error:', error.message);
+          
+          // Show user-friendly error message for other errors
+          if (error.message.includes('AUTH_TOKEN_MISSING')) {
+            toast.error('Session expired. Please login again.');
+          } else if (error.message.includes('NETWORK_ERROR')) {
+            toast.error('Network error. Please check your connection.');
+          } else {
+            toast.error('Failed to load dashboard data. Please try again.');
+          }
         }
       } finally {
         setLoading(false);

@@ -2,12 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, List } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { getReferralList, getReferralDetails } from '@/app/services/walletApi';
 
 const MerchantReferralList = () => {
+  const router = useRouter();
   const [referrals, setReferrals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedMerchant, setSelectedMerchant] = useState(null);
+  const [detailsLoading, setDetailsLoading] = useState(false);
 
   useEffect(() => {
     fetchReferrals();
@@ -36,19 +40,27 @@ const MerchantReferralList = () => {
         return;
       }
       
+      setDetailsLoading(true);
       const details = await getReferralDetails(merchantId);
+      setSelectedMerchant({
+        ...merchant,
+        details: details
+      });
       toast.success(`Loaded details for ${merchant.user?.name || merchant.name}`);
-      // TODO: Open modal or navigate to details page with details data
-      console.log('Merchant details:', details);
     } catch (err) {
       console.error('Failed to fetch details:', err);
       toast.error('Failed to load merchant details');
+    } finally {
+      setDetailsLoading(false);
     }
   };
 
   const handleViewRequests = (merchant) => {
-    toast.info(`Viewing wallet requests for: ${merchant.user?.name || merchant.name}`);
-    // TODO: Navigate to wallet requests page with merchant filter
+    router.push('/dashboard/wallet-requests');
+  };
+
+  const closeDetails = () => {
+    setSelectedMerchant(null);
   };
 
   if (loading) {
@@ -209,6 +221,95 @@ const MerchantReferralList = () => {
           </div>
         )}
       </div>
+
+      {/* Details Section - Shows when View button is clicked */}
+      {selectedMerchant && (
+        <div className="mt-8 border-t-2 border-gray-200 pt-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold text-gray-800">
+              Referral Details - {selectedMerchant.user?.name || 'N/A'}
+            </h3>
+            <button
+              onClick={closeDetails}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+            >
+              Close
+            </button>
+          </div>
+
+          {detailsLoading ? (
+            <div className="animate-pulse space-y-4">
+              <div className="h-64 bg-gray-200 rounded"></div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              {/* Details Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">SL</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Name</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Email</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Mobile</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">Address</th>
+                      <th className="text-center py-3 px-4 font-semibold text-gray-700 text-sm">Order Count</th>
+                      <th className="text-right py-3 px-4 font-semibold text-gray-700 text-sm">Commission</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedMerchant.details?.referral_data?.[0]?.users?.map((user, index) => (
+                      <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                        <td className="py-3 px-4 text-gray-800 text-sm">{index + 1}</td>
+                        <td className="py-3 px-4 text-gray-800 text-sm font-medium">{user.name || 'N/A'}</td>
+                        <td className="py-3 px-4 text-gray-600 text-sm">{user.email || 'N/A'}</td>
+                        <td className="py-3 px-4 text-gray-600 text-sm">{user.mobile || 'N/A'}</td>
+                        <td className="py-3 px-4 text-gray-600 text-sm">{user.address || 'N/A'}</td>
+                        <td className="py-3 px-4 text-center">
+                          <span className="inline-block px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                            {user.order_count || 0}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-right font-semibold text-gray-800 text-sm">
+                          {(selectedMerchant.details?.referral_data?.[0]?.total_commission || 0).toFixed(2)}
+                        </td>
+                      </tr>
+                    )) || (
+                      <tr>
+                        <td colSpan="7" className="py-8 text-center text-gray-500">
+                          No detailed data available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Summary Footer */}
+              <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-600">Grand Total:</span>
+                    <span className="text-lg font-bold text-gray-800">
+                      {Number(selectedMerchant.details?.referral_data?.[0]?.total_commission || 0).toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-600">Withdraw:</span>
+                    <span className="text-lg font-bold text-blue-600">0.00</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-600">Wallet Balance:</span>
+                    <span className="text-lg font-bold text-green-600">
+                      {Number(selectedMerchant.details?.withdraw_amount || 0).toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

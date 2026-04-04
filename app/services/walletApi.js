@@ -54,6 +54,14 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    // Check if response is HTML instead of JSON
+    if (error.response?.data && typeof error.response.data === 'string') {
+      if (error.response.data.trim().startsWith('<')) {
+        console.error('API returned HTML instead of JSON. Check if endpoint URL is correct.');
+        console.error('Response preview:', error.response.data.substring(0, 200));
+      }
+    }
+
     if (error.response?.status === 401) {
       // Token expired or invalid
       toast.error('Session expired. Please login again.');
@@ -67,11 +75,13 @@ apiClient.interceptors.response.use(
     } else if (error.response?.status === 403) {
       toast.error('Access forbidden. You do not have permission.');
     } else if (error.response?.status === 404) {
-      toast.error('Resource not found.');
+      toast.error('Resource not found. API endpoint may be incorrect.');
     } else if (error.response?.status >= 500) {
       toast.error('Server error. Please try again later.');
     } else if (error.code === 'ERR_NETWORK') {
       toast.error('Network error. Please check your connection.');
+    } else if (error.message.includes('JSON')) {
+      toast.error('Invalid response from server. Please try again.');
     }
     
     return Promise.reject(error);
@@ -92,6 +102,12 @@ export const getReferralList = async () => {
       throw new Error(response.data?.message || 'Failed to fetch referral list');
     }
   } catch (error) {
+    // If it's a JSON parse error, provide helpful message
+    if (error.message.includes('JSON')) {
+      console.error('API endpoint may be returning HTML instead of JSON');
+      console.error('Check if the URL is correct: /merchant-refer-list');
+      throw new Error('Invalid API response. Please check if the endpoint is correct.');
+    }
     console.error('Error fetching referral list:', error);
     throw error;
   }
@@ -114,6 +130,11 @@ export const getReferralDetails = async (merchantId) => {
       throw new Error(response.data?.message || 'Failed to fetch merchant details');
     }
   } catch (error) {
+    if (error.message.includes('JSON')) {
+      console.error('API endpoint may be returning HTML instead of JSON');
+      console.error('Check if the URL is correct: /view-details');
+      throw new Error('Invalid API response. Please check if the endpoint is correct.');
+    }
     console.error('Error fetching referral details:', error);
     throw error;
   }
@@ -139,6 +160,11 @@ export const getWalletRequests = async (status = null) => {
       throw new Error(response.data?.message || 'Failed to fetch wallet requests');
     }
   } catch (error) {
+    if (error.message.includes('JSON')) {
+      console.error('API endpoint may be returning HTML instead of JSON');
+      console.error('Check if the URL is correct: /wallet-request-list');
+      throw new Error('Invalid API response. Please check if the endpoint is correct.');
+    }
     console.error('Error fetching wallet requests:', error);
     throw error;
   }
@@ -161,6 +187,11 @@ export const createWalletRequest = async (amount) => {
       throw new Error(response.data?.message || 'Failed to create wallet request');
     }
   } catch (error) {
+    if (error.message.includes('JSON')) {
+      console.error('API endpoint may be returning HTML instead of JSON');
+      console.error('Check if the URL is correct: /wallet-request');
+      throw new Error('Invalid API response. Please check if the endpoint is correct.');
+    }
     console.error('Error creating wallet request:', error);
     throw error;
   }

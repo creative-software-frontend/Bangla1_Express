@@ -2,6 +2,7 @@
 
 import { createContext, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { get } from '@/app/utils/fetchWithAuth';
 
 export const UserContext = createContext();
 
@@ -19,52 +20,46 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      let token;
-      try {
-        const parsed = JSON.parse(tokenString);
-        token = parsed.token;
-      } catch (e) {
-        token = tokenString;
-      }
-
-      if (!token) {
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      console.log('Using Token:', token);
-
-      const response = await fetch('/api/user-info', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-        },
+      // Use the new fetch utility which handles token parsing automatically
+      const data = await get('/api/user-info', {
+        timeout: 10000,
+        retries: 2,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        const errMsg = data?.error || data?.message || 'API fetch failed';
-        console.error('User fetch error:', errMsg);
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
+      // Validate response structure
       if (!data.user) {
-        console.error('User data not found in API response');
+        console.error('User data not found in API response:', data);
         setUser(null);
-        setLoading(false);
+        
+        // Show appropriate error based on response
+        if (data.message) {
+          toast.error(data.message);
+        }
         return;
       }
 
       setUser(data.user);
-      console.log('User loaded successfully:', data.user);
+      console.log('User loaded successfully:', data.user.name || data.user.email);
     } catch (error) {
-      console.error('Error fetching user info:', error);
-      setUser(null);
+      console.error('Error fetching user info:', error.message);
+      
+      // Handle specific error types
+      if (error.message.includes('AUTH_TOKEN_MISSING') || error.message.includes('HTTP_401')) {
+        console.warn('Authentication failed - clearing user data');
+        setUser(null);
+        // Don't show toast here to avoid spam on every page load
+      } else if (error.message.includes('HTTP_404')) {
+        console.error('User info endpoint not found. Check API configuration.');
+        setUser(null);
+        toast.error('Configuration error: User endpoint not found');
+      } else if (error.message.includes('NETWORK_ERROR')) {
+        console.error('Network error fetching user info');
+        setUser(null);
+        toast.error('Network error. Please check your connection.');
+      } else {
+        setUser(null);
+        toast.error('Failed to load user information');
+      }
     } finally {
       setLoading(false);
     }

@@ -10,6 +10,8 @@ import {
   ArrowDownRight,
 } from 'lucide-react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
+import { get } from '@/app/utils/fetchWithAuth';
 
 const performanceData = [
   {
@@ -58,23 +60,29 @@ const Card = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
+        setLoading(true);
+        
+        // Validate token before making request
         const stored = localStorage.getItem('token');
-        const token = stored ? JSON.parse(stored).token : null;
-        const res = await fetch(
+        if (!stored) {
+          console.warn('No token found. User may not be logged in.');
+          setLoading(false);
+          return;
+        }
+
+        // Use the new fetch utility with better error handling
+        const data = await get(
           'https://admin.merchantfcservice.com/api/dashboard-button-list',
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          },
+            timeout: 15000, // 15 seconds timeout for this endpoint
+            retries: 2,
+          }
         );
-
-        const data = await res.json();
 
         if (data?.success) {
           setDashboardData(data.data);
 
+          // Generate mock trends (replace with actual API data when available)
           const mockTrends = {
             delivery_trend: Math.random() > 0.5 ? 'up' : 'down',
             cod_trend: Math.random() > 0.3 ? 'up' : 'down',
@@ -82,9 +90,21 @@ const Card = () => {
             latest_return_trend: Math.random() > 0.7 ? 'up' : 'down',
           };
           setTrends(mockTrends);
+        } else {
+          console.warn('API returned success=false:', data);
+          toast.error('Failed to load dashboard data');
         }
       } catch (error) {
-        console.error('API Error:', error);
+        console.error('Dashboard data fetch error:', error.message);
+        
+        // Show user-friendly error message
+        if (error.message.includes('AUTH_TOKEN_MISSING') || error.message.includes('HTTP_401')) {
+          toast.error('Session expired. Please login again.');
+        } else if (error.message.includes('NETWORK_ERROR')) {
+          toast.error('Network error. Please check your connection.');
+        } else {
+          toast.error('Failed to load dashboard data. Please try again.');
+        }
       } finally {
         setLoading(false);
       }

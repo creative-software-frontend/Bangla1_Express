@@ -13,6 +13,7 @@ import { TbLockPassword } from 'react-icons/tb';
 import { IoLogOut } from 'react-icons/io5';
 import { LuSend } from 'react-icons/lu';
 import { TbTableImport } from 'react-icons/tb';
+import { Wallet, Users } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,6 +39,8 @@ const mainItems = [
     label: 'Tracking Parcel',
     href: '/dashboard/tracking-parcel',
   },
+  { icon: Wallet, label: 'Wallet Requests', href: '/dashboard/wallet-requests' },
+  { icon: Users, label: 'Merchant Referrals', href: '/dashboard/merchant-referrals' },
 ];
 
 const otherItems = [

@@ -39,7 +39,7 @@ const mainItems = [
     label: 'Tracking Parcel',
     href: '/dashboard/tracking-parcel',
   },
-  { icon: Wallet, label: 'Wallet Requests', href: '/dashboard/wallet-requests' },
+  // { icon: Wallet, label: 'Wallet Requests', href: '/dashboard/wallet-requests' },
   { icon: Users, label: 'Merchant Referrals', href: '/dashboard/merchant-referrals' },
 ];
 

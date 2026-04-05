@@ -54,7 +54,7 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
 
   const handleCheckBalance = async () => {
     if (!balanceClicked && !data) {
-      await fetchDashboard(); // 👈 only when clicked first time
+      await fetchDashboard();
     }
     setBalanceClicked(!balanceClicked);
   };
@@ -103,7 +103,6 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
     }
   };
 
-  // Click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = e => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -113,11 +112,6 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // handel navigation to details page
-  // const navigateToDetails = () => {
-  //   router.push(`/dashboard/consignments/${parcel?.data?.tracking_id}`);
-  // };
 
   const CheckBalanceButton = () => (
     <button
@@ -131,7 +125,7 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
           </span>
 
           <Link href={'/dashboard/payment-details '}>
-            <span className="text-[15px] bg-[#1976d2] text-white rounded-full px-2.5 py-0.5 cursor-pointe">
+            <span className="text-[15px] bg-[#1976d2] text-white rounded-full px-2.5 py-0.5 cursor-pointer">
               Details
             </span>
           </Link>
@@ -148,28 +142,27 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
     </button>
   );
 
-  // if (!parcel || !parcel.data) {
-  //   return <p>Loading...</p>;
-  // }
-
   return (
     <div className="bg-primary px-5 py-8 shadow sticky top-0 z-10">
       <header className="flex justify-between items-center">
+        {/* Left: Hamburger Menu */}
         <FaBars
           onClick={toggleSidebar}
           className="text-xl cursor-pointer md:mr-4 hover:text-gray-600 transition-colors duration-200"
         />
 
-        <div className="flex-1 flex items-center justify-center md:justify-between relative">
+        {/* Center: Logo + Search + Check Balance */}
+        <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+          {/* Logo */}
           <img
             src="/img/logo.png"
             alt="logo"
-            className="h-6 md:h-8 w-auto object-contain mx-auto md:mx-0 md:ml-4 transition-opacity duration-200"
+            className="h-8 md:h-10 w-auto object-contain transition-opacity duration-200"
           />
 
-          {/* Desktop Search */}
-          <div className="hidden md:flex items-center justify-center gap-4 absolute left-1/2 transform -translate-x-1/2">
-            <div ref={dropdownRef} className="relative w-60">
+          {/* Desktop Search + Balance (Centered as group) */}
+          <div className="hidden md:flex items-center justify-center gap-4">
+            <div ref={dropdownRef} className="relative w-64">
               <input
                 value={query}
                 onChange={e => setQuery(e.target.value)}

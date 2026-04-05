@@ -81,10 +81,10 @@ const Sidebar = ({ isOpen, onClose }) => {
     // Store previous token for detection
     const previousToken = localStorage.getItem('token');
     localStorage.setItem('previousToken', previousToken || '');
-    
+
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    
+
     toast.success('Logout successful!', {
       position: 'top-right',
       autoClose: 1000,
@@ -112,21 +112,22 @@ const Sidebar = ({ isOpen, onClose }) => {
         ref={menuRef}
       >
         <div
-          className={`border-b border-gray mx-3 pb-3 ${
-            isOpen
+          className={`border-b border-gray mx-3 pb-3 ${isOpen
               ? 'flex gap-2 items-center md:flex-col mt-4'
               : 'flex flex-col items-center mt-4'
-          }`}
+            }`}
         >
           <div className={`flex justify-center ${isOpen ? 'pb-2' : 'pt-2'}`}>
             <Image
-              className={`transition-all duration-300 cursor-pointer ${
-                isOpen ? 'w-14 h-14 md:w-24 md:h-20' : 'w-10 h-10'
-              }`}
+              className={`transition-all duration-300 cursor-pointer object-contain ${isOpen
+                  ? 'w-12 h-12 md:w-20 md:h-16'
+                  : 'w-8 h-8'
+                }`}
               src="/img/marchant_logo_lg.png"
               alt="logo"
-              width={500}
-              height={500}
+              width={80}
+              height={80}
+              priority
             />
           </div>
           {isOpen && !loading && user && (
@@ -161,16 +162,14 @@ const Sidebar = ({ isOpen, onClose }) => {
               <Link
                 href={href}
                 key={idx}
-                className={`relative flex items-center gap-4 px-4 py-4 cursor-pointer ${
-                  isActive
+                className={`relative flex items-center gap-4 px-4 py-4 cursor-pointer ${isActive
                     ? 'bg-[#e3f2fd] !text-[#1976d2] font-semibold border-l-4 border-[#1976d2]'
                     : 'text-primary hover:bg-[#e5f7f4] text-primary-hover'
-                }`}
+                  }`}
               >
                 <Icon
-                  className={`text-xl min-w-[20px] ${
-                    isActive ? 'text-[#1976d2]' : ''
-                  }`}
+                  className={`text-xl min-w-[20px] ${isActive ? 'text-[#1976d2]' : ''
+                    }`}
                 />
                 {isOpen && (
                   <span className="text-[16px] capitalize text-primary font-medium">
@@ -190,11 +189,10 @@ const Sidebar = ({ isOpen, onClose }) => {
           {otherItems.map(({ icon: Icon, label, href }, idx) => {
             const isActive = pathname === href;
             const isLogout = label.toLowerCase() === 'logout';
-            const itemClass = `relative flex items-center gap-4 px-4 py-4 cursor-pointer ${
-              isActive
+            const itemClass = `relative flex items-center gap-4 px-4 py-4 cursor-pointer ${isActive
                 ? 'bg-[#e5f7f4] !text-[#00b795] font-semibold border-l-4 border-[#00b795]'
                 : 'text-primary hover:bg-[#e5f7f4] text-primary-hover'
-            }`;
+              }`;
 
             return isLogout ? (
               <div key={idx} className={itemClass} onClick={handleLogout}>
@@ -208,9 +206,8 @@ const Sidebar = ({ isOpen, onClose }) => {
             ) : (
               <Link href={href} key={idx} className={itemClass}>
                 <Icon
-                  className={`text-xl min-w-[20px] ${
-                    isActive ? 'text-[#00b795]' : ''
-                  }`}
+                  className={`text-xl min-w-[20px] ${isActive ? 'text-[#00b795]' : ''
+                    }`}
                 />
                 {isOpen && (
                   <span className="text-[16px] capitalize text-primary font-medium">

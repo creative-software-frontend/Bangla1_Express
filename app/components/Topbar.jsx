@@ -164,7 +164,7 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
           <img
             src="/img/logo.png"
             alt="logo"
-            className="h-20 mx-auto md:mx-0 md:ml-4 transition-opacity duration-200"
+            className="h-6 md:h-8 w-auto object-contain mx-auto md:mx-0 md:ml-4 transition-opacity duration-200"
           />
 
           {/* Desktop Search */}

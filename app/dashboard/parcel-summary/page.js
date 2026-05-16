@@ -32,7 +32,7 @@ const Page = () => {
       if (!token) return;
 
       const res = await fetch(
-        `https://admin.merchantfcservice.com/api/order-summary?FormDate=${formDate}&toDate=${toDate}`,
+        `https://system.shiponconsumer.com/api/order-summary?FormDate=${formDate}&toDate=${toDate}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

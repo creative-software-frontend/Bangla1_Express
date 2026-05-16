@@ -72,7 +72,7 @@ const Card = () => {
 
         // Use the new fetch utility with better error handling
         const data = await get(
-          'https://admin.merchantfcservice.com/api/dashboard-button-list',
+          'https://system.shiponconsumer.com/api/dashboard-button-list',
           {
             timeout: 15000, // 15 seconds timeout for this endpoint
             retries: 2,

@@ -49,7 +49,7 @@ const DetailsPage = () => {
         const stored = localStorage.getItem('token');
         const token = stored ? JSON.parse(stored).token : null;
         const res = await fetch(
-          `https://admin.merchantfcservice.com/api/order-view?tracking_id=${trackingId}`,
+          `https://system.shiponconsumer.com/api/order-view?tracking_id=${trackingId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ const DetailsPage = () => {
             const token = stored ? JSON.parse(stored).token : null;
 
             const res = await fetch(
-              'https://admin.merchantfcservice.com/api/note',
+              'https://system.shiponconsumer.com/api/note',
               {
                 method: 'POST',
                 headers: {

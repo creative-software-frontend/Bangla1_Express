@@ -27,7 +27,7 @@ const FraudCheck = () => {
 
     try {
       const response = await fetch(
-        `https://admin.merchantfcservice.com/api/fraud-customer-check?number=${phone}`
+        `https://system.shiponconsumer.com/api/fraud-customer-check?number=${phone}`
       );
 
       if (!response.ok) {

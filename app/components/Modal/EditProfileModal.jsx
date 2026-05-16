@@ -82,7 +82,7 @@ const EditProfileModal = ({
       const token = stored ? JSON.parse(stored).token : null;
 
       const response = await axios.post(
-        'https://admin.merchantfcservice.com/api/merchant-profile-updated',
+        'https://system.shiponconsumer.com/api/merchant-profile-updated',
         formData,
         {
           headers: {

@@ -25,7 +25,7 @@ const PaymentRequestModal = ({ isOpen, onClose }) => {
         }
 
         const res = await fetch(
-          'https://admin.merchantfcservice.com/api/merchantdashboard',
+          'https://system.shiponconsumer.com/api/merchantdashboard',
           {
             method: 'GET',
             headers: {
@@ -63,7 +63,7 @@ const PaymentRequestModal = ({ isOpen, onClose }) => {
       const token = stored ? JSON.parse(stored).token : null;
 
       const response = await axios.post(
-        'https://admin.merchantfcservice.com/api/payment-request',
+        'https://system.shiponconsumer.com/api/payment-request',
         formData,
         {
           headers: {

@@ -30,7 +30,7 @@ const DeliveryForm = ({ active }) => {
     const fetchDistricts = async () => {
       try {
         const res = await fetch(
-          'https://admin.merchantfcservice.com/api/distList'
+          'https://system.shiponconsumer.com/api/distList'
         );
         const data = await res.json();
         if (data.Status) {
@@ -49,7 +49,7 @@ const DeliveryForm = ({ active }) => {
       if (!formData.districtId) return;
       try {
         const res = await fetch(
-          `https://admin.merchantfcservice.com/api/dist-area?id=${formData.districtId}`
+          `https://system.shiponconsumer.com/api/dist-area?id=${formData.districtId}`
         );
         const data = await res.json();
         if (data.Status) {
@@ -178,7 +178,7 @@ const DeliveryForm = ({ active }) => {
       const token = stored ? JSON.parse(stored).token : null;
 
       const res = await fetch(
-        'https://admin.merchantfcservice.com/api/orderstor',
+        'https://system.shiponconsumer.com/api/orderstor',
         {
           method: 'POST',
           headers: {

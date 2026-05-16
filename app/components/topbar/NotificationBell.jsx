@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { FaBell } from 'react-icons/fa';
 
-const API_URL = 'https://admin.merchantfcservice.com/api/notification-list';
+const API_URL = 'https://system.shiponconsumer.com/api/notification-list';
 
 const NotificationBell = () => {
   const [isOpen, setIsOpen] = useState(false);

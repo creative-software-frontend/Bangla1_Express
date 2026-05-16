@@ -38,7 +38,7 @@ const PickupRequestModal = ({ isOpen, onClose }) => {
 
       // Send request
       const response = await axios.post(
-        'https://admin.merchantfcservice.com/api/pick-up-request',
+        'https://system.shiponconsumer.com/api/pick-up-request',
         formData,
         {
           headers: {

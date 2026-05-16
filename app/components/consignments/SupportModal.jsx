@@ -36,7 +36,7 @@ const SupportModal = ({ isOpen, onClose, trackingId }) => {
       formData.append('message', message);
 
       const res = await fetch(
-        'https://admin.merchantfcservice.com/api/create-support-ticket',
+        'https://system.shiponconsumer.com/api/create-support-ticket',
         {
           method: 'POST',
           headers: {

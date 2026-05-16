@@ -23,6 +23,7 @@ const SignUp = () => {
     address: '',
     email: '',
     mobile: '',
+    reference: '',
     area: '',
     district: '',
     password: '',
@@ -87,19 +88,26 @@ const SignUp = () => {
       const data = await res.json();
       console.log(data);
 
-      if (data.message === 'Inactive account') {
+      const isSuccess = data.message === 'Inactive account' || 
+                        (typeof data.message === 'string' && data.message.includes('Registration successful'));
+
+      if (isSuccess) {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: `Thank You! Your Merchant Account Registration is successful. We will manually
-Check and Activate your account within 24 hours.`,
+          title: data.message || `Thank You! Your Merchant Account Registration is successful. We will manually Check and Activate your account within 24 hours.`,
           showConfirmButton: false,
           timer: 4500,
         });
 
         router.push('/');
       } else {
-        toast.error(data.message);
+        if (typeof data.message === 'object') {
+          const firstError = Object.values(data.message).flat()[0];
+          toast.error(firstError || 'Registration failed');
+        } else {
+          toast.error(data.message || 'Registration failed');
+        }
       }
 
       // if (res.ok && data.success) {
@@ -220,6 +228,17 @@ Check and Activate your account within 24 hours.`,
                 className="w-full border border-gray-300 px-4 py-3 rounded-md outline-[#00b795]"
               />
               <FiPhone className="absolute right-4 text-gray-400" size={20} />
+            </div>
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                name="reference"
+                value={formData.reference}
+                onChange={handleChange}
+                placeholder={'Reference'}
+                className="w-full border border-gray-300 px-4 py-3 rounded-md outline-[#00b795]"
+              />
+              <FiUser className="absolute right-4 text-gray-400" size={20} />
             </div>
             <div className="flex gap-5">
               {/* District Dropdown */}

@@ -50,7 +50,7 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
 
   const API_URL =
-    'https://admin.merchantfcservice.com/api/dashboard-button-list';
+    'https://system.shiponconsumer.com/api/dashboard-button-list';
   const stored = localStorage.getItem('token');
   const token = stored ? JSON.parse(stored).token : null;
 

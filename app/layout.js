@@ -20,8 +20,8 @@ export default async function RootLayout({ children }) {
   const locale = await getLocale();
   const messages = await getMessages();
   return (
-    <html lang={locale} className={`${poppins.variable} scroll-smooth`}>
-      <body cz-shortcut-listen="true">
+    <html lang={locale} className={`${poppins.variable} scroll-smooth`} suppressHydrationWarning>
+      <body>
         <NextIntlClientProvider messages={messages}>
           <UserProvider>{children}</UserProvider>
         </NextIntlClientProvider>

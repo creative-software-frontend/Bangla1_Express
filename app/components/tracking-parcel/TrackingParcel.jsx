@@ -23,7 +23,7 @@
 //       const token = stored ? JSON.parse(stored).token : null;
 
 //       const res = await fetch(
-//         `https://admin.merchantfcservice.com/api/order-search?name=${encodeURIComponent(
+//         `https://system.shiponconsumer.com/api/order-search?name=${encodeURIComponent(
 //           query
 //         )}`,
 //         {
@@ -300,7 +300,7 @@ const TrackingParcel = () => {
       const token = stored ? JSON.parse(stored).token : null;
 
       const res = await fetch(
-        `https://admin.merchantfcservice.com/api/order-search?name=${encodeURIComponent(
+        `https://system.shiponconsumer.com/api/order-search?name=${encodeURIComponent(
           query
         )}`,
         {

@@ -18,7 +18,7 @@ const TrackParcel = () => {
       const token = stored ? JSON.parse(stored).token : null;
 
       const res = await fetch(
-        `https://admin.merchantfcservice.com/api/order-view?tracking_id=${encodeURIComponent(
+        `https://system.shiponconsumer.com/api/order-view?tracking_id=${encodeURIComponent(
           query
         )}`,
         { headers: { Authorization: `Bearer ${token}` } }

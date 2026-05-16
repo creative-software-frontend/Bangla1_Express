@@ -54,7 +54,7 @@ const DashboardProcessingTable = () => {
         }
 
         const response = await fetch(
-          'https://admin.merchantfcservice.com/api/dashboard-button-list',
+          'https://system.shiponconsumer.com/api/dashboard-button-list',
           {
             headers: {
               Authorization: `Bearer ${token}`,

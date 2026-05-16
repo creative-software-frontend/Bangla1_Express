@@ -160,7 +160,7 @@ const ParcelTable = () => {
         if (!token) return;
 
         const response = await fetch(
-          `https://admin.merchantfcservice.com/api/order-delivered`,
+          `https://system.shiponconsumer.com/api/order-delivered`,
           { method: 'GET', headers: { Authorization: `Bearer ${token}` } },
         );
 

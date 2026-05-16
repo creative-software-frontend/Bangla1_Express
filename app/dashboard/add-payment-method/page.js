@@ -77,7 +77,7 @@ const PaymentPage = () => {
       const stored = localStorage.getItem('token');
       const token = stored ? JSON.parse(stored).token : null;
       const response = await axios.post(
-        'https://admin.merchantfcservice.com/api/payment-info-add',
+        'https://system.shiponconsumer.com/api/payment-info-add',
         data,
         {
           headers: {
@@ -119,7 +119,7 @@ const PaymentPage = () => {
         const token = stored ? JSON.parse(stored).token : null;
 
         const response = await fetch(
-          'https://admin.merchantfcservice.com/api/payment-info-show',
+          'https://system.shiponconsumer.com/api/payment-info-show',
           {
             method: 'GET',
             headers: {
@@ -151,7 +151,7 @@ const PaymentPage = () => {
         const token = stored ? JSON.parse(stored).token : null;
 
         const response = await fetch(
-          'https://admin.merchantfcservice.com/api/restriction-payment',
+          'https://system.shiponconsumer.com/api/restriction-payment',
           {
             method: 'GET',
             headers: {

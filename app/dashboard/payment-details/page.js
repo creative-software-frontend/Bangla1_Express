@@ -19,7 +19,7 @@ export default function PaymentDetails() {
         if (!token) throw new Error('No token found');
 
         const res = await fetch(
-          'https://admin.merchantfcservice.com/api/payment-details',
+          'https://system.shiponconsumer.com/api/payment-details',
           {
             headers: {
               Authorization: `Bearer ${token}`,

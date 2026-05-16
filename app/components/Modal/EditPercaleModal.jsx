@@ -38,7 +38,7 @@ const EditPercaleModal = ({ order, onClose }) => {
       if (!token) return;
 
       const res = await fetch(
-        'https://admin.merchantfcservice.com/api/parcel-update',
+        'https://system.shiponconsumer.com/api/parcel-update',
         {
           method: 'POST',
           headers: {

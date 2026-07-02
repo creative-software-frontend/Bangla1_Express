@@ -31,7 +31,7 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
       }
 
       const res = await fetch(
-        'https://www.takewaybd.com/api/merchantdashboard',
+        'https://system.shiponconsumer.com/api/merchantdashboard',
         {
           method: 'GET',
           headers: {
@@ -72,7 +72,7 @@ const Topbar = ({ toggleSidebar, toggleMobileSearch, showMobileSearch }) => {
       const token = stored ? JSON.parse(stored).token : null;
 
       const res = await fetch(
-        `https://www.takewaybd.com/api/order-search?name=${encodeURIComponent(
+        `https://system.shiponconsumer.com/api/order-search?name=${encodeURIComponent(
           query,
         )}`,
         {

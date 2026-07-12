@@ -24,17 +24,62 @@ const PaymentPage = () => {
   const [showPaymentMethod, setShowPaymentMethod] = useState(null);
 
   // Bank list
+  // Comprehensive Bank List of Bangladesh
   const bankList = [
+    // --- State-Owned Commercial Banks ---
     'Sonali Bank',
     'Janata Bank',
     'Agrani Bank',
     'Rupali Bank',
-    'Islami Bank',
+    'BASIC Bank',
+    'Bangladesh Development Bank (BDBL)',
+
+    // --- Specialized Banks (State-Owned) ---
+    'Bangladesh Krishi Bank',
+    'Rajshahi Krishi Unnayan Bank (RAKUB)',
+    'Ansar VDP Unnayan Bank',
+    'Palli Sanchay Bank',
+
+    // --- Private Commercial Banks (Conventional) ---
     'Dutch-Bangla Bank',
     'BRAC Bank',
     'Eastern Bank',
     'Prime Bank',
-    'United Commercial Bank',
+    'United Commercial Bank (UCB)',
+    'Mutual Trust Bank (MTB)',
+    'The City Bank',
+    'Pubali Bank',
+    'Uttara Bank',
+    'AB Bank',
+    'IFIC Bank',
+    'National Bank Limited (NBL)',
+    'Mercantile Bank',
+    'One Bank',
+    'Dhaka Bank',
+    'Premier Bank',
+    'Southeast Bank',
+    'Jamuna Bank',
+    'Trust Bank',
+    'South Bangla Agriculture & Commerce (SBAC) Bank',
+    'Meghna Bank',
+    'Midland Bank',
+    'Modhumoti Bank',
+    'NRB Bank',
+    'NRB Commercial (NRBC) Bank',
+    'Community Bank Bangladesh',
+    'Bengal Commercial Bank',
+    'Citizens Bank',
+
+    // --- Islamic Private Commercial Banks ---
+    'Islami Bank Bangladesh PLC',
+    'Al-Arafah Islami Bank',
+    'Social Islami Bank Limited (SIBL)',
+    'First Security Islami Bank',
+    'Shahjalal Islami Bank',
+    'Exim Bank',
+    'ICB Islamic Bank',
+    'Union Bank',
+    'Global Islami Bank'
   ];
 
   // save handler
@@ -331,58 +376,58 @@ const PaymentPage = () => {
               {(method === 'bkash' ||
                 method === 'nagad' ||
                 method === 'rocket') && (
-                <div className="space-y-6 animate-fade-in px-2">
-                  <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-xl border border-blue-200">
-                    <img
-                      src={getMethodImage(method)}
-                      alt={method}
-                      className="w-10 h-10 object-contain"
-                    />
-                    <div>
-                      <h3 className="font-semibold text-gray-800 capitalize">
-                        {method}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        Mobile financial service
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Account Type
-                      </label>
-                      <select
-                        value={type}
-                        onChange={e => setType(e.target.value)}
-                        className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
-                      >
-                        <option value="personal">Personal</option>
-                        <option value="agent">Agent</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Mobile Number
-                      </label>
-                      <input
-                        type="number"
-                        value={number}
-                        onChange={e => {
-                          const value = e.target.value;
-                          if (/^\d*$/.test(value)) {
-                            setNumber(value);
-                          }
-                        }}
-                        placeholder="01XXXXXXXXX"
-                        className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                  <div className="space-y-6 animate-fade-in px-2">
+                    <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                      <img
+                        src={getMethodImage(method)}
+                        alt={method}
+                        className="w-10 h-10 object-contain"
                       />
+                      <div>
+                        <h3 className="font-semibold text-gray-800 capitalize">
+                          {method}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          Mobile financial service
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Account Type
+                        </label>
+                        <select
+                          value={type}
+                          onChange={e => setType(e.target.value)}
+                          className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                        >
+                          <option value="personal">Personal</option>
+                          <option value="agent">Agent</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Mobile Number
+                        </label>
+                        <input
+                          type="number"
+                          value={number}
+                          onChange={e => {
+                            const value = e.target.value;
+                            if (/^\d*$/.test(value)) {
+                              setNumber(value);
+                            }
+                          }}
+                          placeholder="01XXXXXXXXX"
+                          className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Bank Transfer */}
               {method === 'bank' && (

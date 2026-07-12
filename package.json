@@ -24,7 +24,7 @@
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
     "sweetalert2": "^11.23.0",
-    "swiper": "^11.2.6"
+    "swiper": "^14.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
